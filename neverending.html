@@ -1,0 +1,318 @@
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0"/ name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+body {
+	background-color: #f2f2f2;
+}
+p span, form {
+	color:  #333333;
+	position: relative;
+    -webkit-animation: fadein .5s, slidein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein .5s, slidein 1s; /* Firefox < 16 */
+        -ms-animation: fadein .5s, slidein 1s; /* Internet Explorer */
+         -o-animation: fadein .5s, slidein 1s; /* Opera < 12.1 */
+            animation: fadein .5s, slidein 1s;
+}
+
+p {
+	margin: 3% auto auto auto;
+	width: 75%;
+	font-size: 1.3em;
+}
+
+form {
+	display: inline;
+}
+
+.highlight {
+    -webkit-animation: highlight 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: highlight 1s; /* Firefox < 16 */
+        -ms-animation: highlight 1s; /* Internet Explorer */
+         -o-animation: highlight 1s; /* Opera < 12.1 */
+            animation: highlight 1s;
+}
+
+.glow {
+    -webkit-animation: glow 5s infinite alternate-reverse; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: glow 5s infinite alternate-reverse; /* Firefox < 16 */
+        -ms-animation: glow 5s infinite alternate-reverse; /* Internet Explorer */
+         -o-animation: highlight 5s infinite alternate-reverse; /* Opera < 12.1 */
+            animation: highlight 5s infinite alternate-reverse;
+}
+
+div {
+  margin-top: 15px;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes highlight {
+    from { font-size: 1.2em; color: red; }
+    to   { font-size: 1em; color: #333333; }
+}
+
+@keyframes slidein {
+    from {bottom: 5px; }
+    to   {bottom: 0px; }
+}
+
+@keyframes highlight {
+    from {color: red; }
+    to   {color: #333333; }
+}
+</style>
+
+  <title></title>
+</head>
+
+<body>
+<div style="margin: auto; border-bottom: 5px #d5d5d5 double;">
+  <h2 class="glow" style="text-align:center; font-weight: 550;">Never Ending Story</h2>
+<h3 style="font-weight: normal; text-align: center;">Just type. Don't read into it. It's a never ending <span id="story">story</span>.</h3>
+</div>
+<p id="uno"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+
+<script>
+  // Just modify 'arrays'. For every item in an array that isn't a string, replace it with a text field, the placeholder of the text field being the second item in that item (IE ['', 'name1'] is a text field with the placeholder 'name'. Whatever you enter will replace all arrays with the second item being 'name1'. Basically it remembers what you type).
+
+  //Every item in an array that matches an item in 'inputTypes' will replace with a text field, but it won't remember what you type. When all text fields are gone it will randomly pick another array and fade that in.
+
+var arrays = [
+// 1
+  [['', 'name1'], ' never wanted to ', 'verb', ' so ', 'adverb', ' but they knew that if they were to ', 'verb', ' ', ['', 'noun1'], ' they were going to have to. ', ['','name1'], ' ', 'verb', ' ', ['', 'name2'], ', waiting for the perfect time to ', 'verb', ', ', 'adverb', ' to any ', 'noun', ' that might be ', 'verb', ' to ', ['','name1'], "'s ", 'noun', '. Suddenly, ', ['','name2'], ' ', 'verb', ' and ', ['','name1'], ' had to ', 'verb', ' before they ', 'verb', ' to ', ['','noun2'], ' and finally ', 'verb', '. '],
+
+  ['"You think we can ', 'verb', '?" Said ', ['','name2'], ', ', 'adverb', ' ', 'verb', ' the ', 'noun', '. ', '"No," said ', ['','name1'], ', "we need to ', 'verb', ' ', ['','noun2'], ' first, and that could ', 'verb', ' ', 'adverb', '." ', ['','name1'], ' was the ', ['', 'role1'], ', and as the ', ['','role1'], ' they could not ', 'verb', ' any sort of ', 'noun', ' while they were ', 'verb', ', and ', ['', 'name2'], ' ', 'adverb', ' ', 'verb', '. '],
+
+  [['','name2'], ' decided to ', 'verb', ' in the ', 'adjective', ' ', ['','noun1'],' ', 'preposition', ', and so when the ', ['','role2'], ' was ready, they ', 'verb', ' the', 'noun', ' and ', 'adverb', ' ', 'verb', ' ', ['','name1'], '. They ', 'verb', ' that ', ['','name3'], ' was beginning to ', 'verb', ' the ', ['','noun3'], '. ', ['','name1'], ' ', 'verb', ' ', ['','name2'], ' and ', 'verb', ' ', 'adjective', '. '],
+
+  ['"', 'verb', ' the ', ['','noun3'], '." ', ['','name3'], ' said to ', 'name', ', ', 'adverb', ' for ', 'noun', ' to ', 'verb', ', "This is ', 'adjective', ' whether you like it or not." ', 'verb', ' the ', ['','role1'], '  ', ['','name1'], ', ', ['','noun2'], ' was ', 'verb', ' for ', 'adverb', ' ', 'verb', ' of ', 'adjective', ' ', 'noun', "'s that are ", 'adverb', ' ', 'verb', ' for ', ['','name2'], ', and they believed that this ', ['','noun1'], ' was ', 'adjective', ' for a ', ['','role2'], ' like ', ['','name2'], '. '],
+
+  ['If not for ', ['','name2'], ' ', 'verb', ' ', ['','noun2'], ', and ', ['','name1'], "'s ", 'adjective', ' ', 'noun', ', ', ['','noun3'], ' would only ', 'verb', ' so ', 'adverb', ' and so when ', ['','name3'], ' ', 'verb', ', they had to ', 'verb', ' in a way that no ', 'noun', ' could ', 'verb', '. "You need this ', ['','noun4'], ' ', 'verb', ' ', 'preposition', ' I ', 'verb', '," ', ['','name2'], ' ', 'verb', ' with the ', 'noun', ' they were', 'verb', ' the ', 'noun', 's moments ago. "because if you', 'verb', ', the whole ', ['','noun2'], ' will ', 'verb', ' ', 'adjective',' and we ', 'adverb', ' ', 'verb', '. '],
+
+
+// 2
+  [['','name1'], ' ', 'verb', ' at ', ['','name2'], ' with the same ', 'noun', ' that ', ['','name2'], ' remembered from ', 'preposition', '. The same ', 'noun', ' that got ', ['','noun4'], ' ', 'verb', ' and ', ['','name3'], ' so ', 'adverb', ' ', 'verb', ' that ', ['','name3'], " couldn't ", 'verb', ' again. "', "You're a ", ['','role1'], ' still. You must understand that, ', ['','name1'], '." They said. ', '"Understand it? I live it every day, ', ['','name2'], ". If there is one person you need to remind of that it'll be ", ['','name3'], '. '],
+
+  ['adverb', ' ', 'verb', ' the ', 'noun', ', the ', ['','noun1'], ' was ', 'verb', ' by the ', 'adjective', ' ', ['','role3'], ' that ', ['','name2'], ' and ', ['','name1'], ' ', 'verb', '. ', 'number', ' ', 'noun', " were ", 'verb', '. when everybody was still ', 'verb', ', the ', ['','noun1'], ' a ', 'noun', ' of what it was initially. '],
+
+  ['Within ', ['','noun2'], ' was a ', 'noun', ' so ', 'adjective', ' that it ', 'verb', ' every time ', ['','name1'], ' ', 'verb', '. " What the..."', ['','name1'], ' ', 'verb', ' even ', 'verb', ' the ', ['','noun2'], ' without it ', 'verb', ' ', 'adverb', '. "How could anybody possibly ', 'verb', '.... I... I ', 'verb', ' to-" ', ['','name2'], ' ', 'verb', ' ', 'preposition', ' and said "I ', 'verb', ' the ', 'noun', ' of ', ['','noun2'], ', and now we can ', 'verb', ' ', 'prepositon', ' ', ['','noun2'], ' ', 'adverb', '." '],
+
+  [['','name3'], ' ', 'verb', ' ', 'preposition', ', ', ['','name1'], ' ', 'verb', ' ', 'preposition', ', both ', 'verb', ' to the ', ['','noun1'], ', ', 'verb', ' for ', ['','name2'], ' to ', 'verb', ' them. As soon as ', ['','name2'], ' was ', 'adjective', ' the two of them ', 'verb', ' for the ', ['','noun1'], '. "Now." The ', ['','role3'], ' ', 'verb', ' to them at the exact moment they ', 'verb', ', ', 'verb', ' the ', ['','role1'], ' and ', ['','role2'], "'s ", 'noun', "'s while they ", 'verb', ' the ', ['','noun1'], '. Finally, the ', ['','noun1'], ' was ', 'adjective', '. ' ],
+
+  ['Little did they know, ', ['','noun3'], ' was ', 'verb', ' and ', 'verb', ' at the hand of ', ['','name3'], ' who was in fact ', 'verb', ' to ', 'verb', ' ', ['','name2'], ', remembering the ', 'noun', ['','name1'], ' had ', 'verb', ' them ', 'preposition', '. When the ', ['','noun1'], ' became ', 'adjective', ', ', ['','name3'], ' ', 'verb', ' ', 'adverb', ' enough for the ', ['','noun3'], ' to ', 'verb', ', and ', ['','name2'], ' ', 'verb', ' ', 'preposition', ' the ', ['','noun3'], ' and ', 'adverb', ' ', 'verb', ', much to ', ['','name3'], "'s ", 'noun', '. '],
+
+
+// 3
+  ['Had ', ['','role1'], ' never gone to ', ['','noun1'], ', the ', ['','noun2'], " wouldn't even ", 'verb', ', however ', ['','noun1'], ' was not quite the ', 'noun', ' that they had expected. "Ah," ', 'verb', ' ', ['','name1'], ' to the ', ['','role3'], ', "I ', "haven't", 'adverb', ' ', 'verb', ' ', 'preposition', ' ', ['','noun3'], ', but I ', 'verb', ' I ', 'verb', ", wouldn't you say, ", 'name', '?" The', ['','role3'], ' ', 'verb', ':" ', 'exclamation', ", you'll probably ", 'verb', ' ', 'preposition', ' that." '],
+
+  [['','name1'], ' ', 'verb', ' ', 'adverb', ' ', 'adjective', ' to ', ['','role2'], "'s ", 'adjective', 'noun', '. ', ['','role2'], ', ', ['','name2'], ', ', 'verb', ' ', 'preposition', ' the ', ['','noun1'], ' with their ', 'noun', ' so ', 'adverb', ' that ', ['','name1'], ' was ', 'verb', ' to ', 'verb', '. '],
+
+  ['"You ', 'verb', ' the ', ['','role1'], '?" ', '"', 'exclamation', ", they haven't ", 'verb', ' ', 'adverb', ' so the ', ['','noun2'], ' ', 'verb', '." ', ['','name2'], ' and ', ['','name3'], ' the ', ['','role3'], ' ', 'verb', ' ', 'preposition', ' the ', ['','noun1'], ', the ', 'adjective', ' ', 'noun', "of it's kind. ", '"Well you should. ', "It's ", 'adjective', ' that ', ['','role1'], ' is ', 'adjective', ' or else the ', ['','role2'], ' will ', 'verb', '." "I mean of course ', 'noun', ' will ', 'verb', ', it just takes ', 'noun', '." '  ],
+
+  ['The ', 'noun', ' ', 'verb', ' ', 'preposition', ' the ', 'noun', '; ', ['','noun1'], ' ', 'adverb', ' ', 'verb', ' so ', 'adverb', ' in the ', 'adjective', '. ', 'adjective', 'noun', "'s ", 'verb', ' around the ', ['','noun1'], ' until ', ['','noun1'], ' was ', 'adjective', '. ', ['','name1'], ' and ', ['','name3'], ' looked on as ', ['','noun1'], ' was ', 'verb', ' imagining a reality where ', ['','noun1'], ' had been ', 'adjective', ". It's a reality where ", 'pronoun', ' can ', 'adverb', ' be ', 'adjective', ", and ", ['','name1'], 'verb', "that it's ", 'adjective', '. ' ],
+
+  ['adjective', '. ', 'adjective', '. ', 'adjective', '. ', ['','name2'], ' has been ', 'verb', ' for', 'noun', ', and ', ['','name2'], ' ', 'verb', ' it. ', ['','name1'], ' ', 'verb', ' the ', ['','role1'], ' ', 'noun', ' when they ', 'verb', ' about the ', 'verb', ' of ', ['','name2'], ', much to the ', 'noun', ' of ', ['','name2'], ' and the ', 'verb', ' of ', ['','role3'], ' who so ', 'adverb', ' ', 'verb', ' ', ['','noun1'], '. ', ['','name2'], ' will not ', 'verb', ' ', 'adverb', '. '],
+
+
+// 4
+  ['adjective', ' ', 'preposition', ' ', ['','noun2'], ' ', 'verb', ' a ', 'adjective', ' ', 'noun', ' that every ', 'noun', ' has ', 'verb', ' but never ', 'verb', '. ', ['','noun2'], ' at the end of the day was a ', 'role', ' the ', 'noun', "'s ", 'verb', '. '],
+
+  ['"Keep ', 'verb', ". Watch for ", 'noun', "'s or else ", 'pronoun', ' ', 'verb', '." The', ['','role4'], ' ', 'verb', ' ', 'preposition',' the ', ['','noun4'], "'s. ", ['','name2'], ' ', 'verb', ' ', 'preposition', ' ', ['','name3'], ': "We ', 'verb', ' ', 'verb', ' ', 'adjective', '; the ', 'noun', "'s are ", 'adverb', ' ', 'adjective', ' and we ', 'verb', ' ', 'verb', ' ', 'verb', ' for ', 'noun', '." "I know," said ', ['','name4'], ', but the ', ['','role4'], ' ', 'verb', ' ', 'noun', ' ', 'adverb', '. ', 'adverb', ', ', 'number', ' ', 'noun', "'s ", 'verb', ' ', 'preposition', ['','name2'], ', who ', 'verb', ' ', 'adjective', '. '],
+
+  ['You know, when I ', 'verb', ' ', 'adverb', ' ', 'preposition', ' ', ['','noun1'] , " I can't help but ", 'verb', " about ", ['','name4'], ', ', 'verb', ' about their ', 'noun', ' that I ', 'verb', "... It isn't lost on me the ", 'noun', ' I ', 'verb', '...."', ['','name1'], ' ', 'verb', ' ', ['','name3'], ' as they spoke. "', 'interjection', ' ', ['','name1'], ", it wasn't ", 'adjective', ' to be ', 'adjective', ', ', ['','name4'], "'s ", 'noun', " wasn't ", 'adjective', ' because of you. You have nothing to ', 'verb', ' of." ', ['','name1'], ' ', 'verb', ' and said "I... I know, I just- I ', "can't help but", 'verb', '."'],
+
+  [['','noun3'], ' ', 'verb', ' and ', 'verb', '. ', ['','name1'], " couldn't ", 'verb', ' it despite the ', 'verb', ' of the ', ['','noun4'], ' ', 'adverb', ' ', 'adjective', '. Ever ', 'adjective', ' is the ', ['','noun3'], ' under the ', 'noun', ' of the ', ['','noun1'], ', ', 'verb', ' by ', ['','name1'], " after it's ", 'noun', ' was ', 'verb', ' into ', 'noun', '. '],
+
+  [['','name1'], ' had been ', 'adjective', ' since ', 'noun', '; the ', 'verb', ' of ', ['','noun1'], ' that ', 'verb', ' it forever. ', ['','name2'], ' ', 'verb', ', noticing their ', 'adjective', ' ', 'noun', '. " ', ['','name1'], ", you ", 'adjective', '?" " ', 'exclamation', ', whenever I ', 'verb', ' about ', ['','noun1'], ' I ', 'verb', '... ', 'adjective', "I don't know how to ", 'verb', ' but every time I ', 'verb', ' ', ['','noun1'], ' it ', 'verb', " me. And I can't ", 'verb', '.... ', 'verb', ' me, ', ['','name2'], '... ', 'verb', ' me."'],
+
+
+  // 5
+  [['','name2'], ' could only ', 'verb', ' ', ['','name3'], ' but ', ['','name1'], ' was ', 'verb', ' ', 'adjective', ' and ', ['','name2'], ' had to ', 'verb', ' ', 'adverb', '. They all ', 'adverb', ' ', 'verb', ' as the ', ['','noun2'], ' began to ', 'verb', ' ', 'verb', ' their process. ', ['','name3'], ' ', 'verb', ' at ', ['','name1'], ' awaiting their ', 'noun', '. "Well?', " What're you waiting ", 'for?"', ' ', ['','name1'], ' ', 'verb', ' to keep the ', ['','noun2'], ' ', 'adjective', ' to no avail; it was too ', 'adjective', ' and it ', 'adverb', ' began to ', 'verb', '"No!" Said ', ['','name3'], ', "That was our only ', 'noun', '!" They all ', 'verb', ' as the ', ['','noun2'], ' ', 'verb', ' ', 'adverb', '. '],
+
+  [['','noun1'], ' ', 'verb', ', everyone was ', 'adjective', '; ', 'noun', '. ', 'noun', '. ', 'noun', '. Not a single ', 'noun', ' was left ', 'adjective', ' as ', ['','name3'], ' ', 'verb', ' what little ', 'noun', ' was ', 'verb', ' of the ', ['','noun2'], '. However ', 'adjective', ' the situation looked ', ['','name1'], ' was ', 'adjective', ' to ', 'verb', '. They ', 'verb', ' ', 'preposition', ' the ', ['','noun1'], ', ', 'verb', ' for a ', ['','noun3'], ' that they could ', 'verb', ' ', 'preposition', ['','noun1'], '. '],
+
+  ['All the ', 'adjective', ' ', 'noun', ' ', 'verb', '. All of the ', 'role', ' including ', ['','name2'], ' themself were ', 'adjective', ' by the ', 'adjective' ,' of the ', ['','noun4'], "'s impossible ", 'noun', '. The ', ['','role1'], ' ', 'verb', ' the ', 'noun', ' to no avail; it was ', 'adjective', ' to ', 'verb', '. "I never ', 'verb', ' you to ', 'verb', '." ', ['','name1'], ', the ', ['','role1'], ', ','verb', ' to ', ['','name2'], ', one of the ', ['','role2'], '. ', ['','name2'], ' ', 'verb', ' ', 'preposition', ' ', ['','name1'], ' in ', 'noun', ', ', 'verb', ' to ', 'verb', ' another ', ['','noun4'], ', but all ', ['','name2'], ' could ', 'verb', ' was ', 'verb', ', and it ', 'verb',' them. '],
+
+  ['"Have you ever ', 'verb', ' where the ', ['','noun3'], ' ', 'verb', ' ', 'preposition', ' ', 'conjunction', ' ', ['','role2'], ' ', 'verb', ', ', ['','name2'], '?" ', ['','name3'], ' asked ', 'adverb', '. "Well I know that ', ['','noun3'], " isn't quite the ", 'noun', ' ', 'pronoun', ' think it is, that I can say for sure. Now as the ', ['','role2'], ' I have to ', 'verb', ' where YOU ', 'verb', ' ', 'pronoun', ", and I think it's ", 'noun', ' to say that the ', ['','noun3'], ' would have ', 'verb', ' if not for ', 'pronoun', ', ', ['','role3'], '." '],
+
+  ['The ', ['','role1'], ' ', 'verb', ' into the ', ['','role2'], ', ', 'adverb', ' and ', 'adverb', ' ', 'verb', ' their ', 'noun', ' until it ', 'verb', '. ', ['','name2'], ' ', 'verb', ' at ', ['','name1'], ' with ', 'noun', '"', 'adverb', '...."', ['','name1'], ' kept ', 'verb', ' in the ', 'noun', ' of ', ['','noun1'], "'s ", 'noun', ', ', 'noun', ' ', 'verb', ' ', 'preposition', ['','noun2'], "'s constant ", 'noun', '. After ', 'noun', ' of ', 'verb', ', the ', ['','role2'], ' finally ', 'verb', '. '],
+
+
+  // 6
+  ['pronoun', ' considered ', ['','name4'], ' to be their ', 'noun', ', but ', ['','name4'], " hadn't ", 'verb', ' the notion ', 'preposition', ' ', 'adverb', '. ', 'name', ' had another ', 'noun', ' for their plans, but ', ['','name4'], ' was ', 'adjective', '; ', 'pronoun', ' ', 'verb', ' ', ['','noun3'], ' ', 'preposition', ' anyone else. ', ['','name1'], ' ', 'verb', ' ', ['','name4'], ' ', 'adverb', ', making sure to ', 'verb', ' ', ' the ', 'noun', ' ', 'adjective', ' as they ', 'verb', ' ', ['','name4'], '. '],
+
+  ['Over the ', ['','noun3'], ' was a ', 'adjective', ' that ', ['','name3'], ' had ', 'verb', ' already, but nevertheless ', 'verb', ' to ', 'verb', '. ', ' They had ', 'adverb', ' ', 'verb', ' when ', ['','name2'], ' was ', 'verb', '. " The ', ['','noun3'], ' is ', 'adjective', "; it's ", 'adjective', ', ', ['','name3'], '."', '"I refuse to ', 'verb', ' that ', ['','name2'], ', I mean look at ', ['','name4'], "; they're ", 'adjective', ' and their ', 'noun', ' is ', 'adjective', ' like none other."', ['','name4'], ' had been ', 'verb', ' after they ', 'verb', ' the ', ['','noun3'], ', yet still they ', 'verb', ' ', 'adjective', '. '],
+  
+  ['The ', ['','role4'], ' ', 'verb', ' on their ', 'noun', ' as a ', 'adjective', ' ', 'noun', ', ', 'adjective', ' that ', ['','noun1'], ' is now a ', 'noun', ' for all ', 'adjective', ' ', 'noun', '. ', ['','name2'], ' ', 'verb', ' ', 'preposition', ['','name4'], ' with ', 'noun', ', the ', 'noun', ' on ', ['','name4'], "'s ", 'noun', ' shook ', 'adverb', '. The whole of ', ['','noun1'], "'s ", 'role', 's ', 'verb', ' their ', 'adverb', ', ', 'verb', ' for the ', ['','role4'], "'s to ", 'verb', ' their ', 'adjective', ' ', ['','noun3'], '. '],
+
+  [['','name3'], ' came ', 'preposition', ', and ', 'verb', ' a ', 'adjective', ['','name2'], ' ', 'verb', ' in their ', 'noun', '. "', "You're ", 'noun', '."', ['','name3'], ' said. " I ', "wasn't ", 'verb', ' ', 'pronoun', ' to ', 'verb', '."', ['','name2'], " didn't think of the possibility that ", ['','name3'], ' ', 'verb', ', but regardless, ', 'pronoun', ' was ', 'noun', ' of ', ['','name3'], "'s ", 'noun', '. '],
+
+  ['It was ', 'noun', ' when ', ['','name1'], ' was ', 'verb', ' to ', 'pronoun', ' "I ', "can't believe that ", ['','name2'], ' ', 'verb', '." They said, "', "It's almost ", 'adjective', '; the ', ['','noun2'], ' ', 'verb', " itself. I didn't even think it", ' could." The ', ['','noun2'], ' ', 'verb', ' itself ', 'preposition', ' ', 'noun', ' in the ', ['','noun1'], '. ' ['','name1'], ' ', 'verb', ' to the ', ['','noun2'], ' and ', 'verb', ' with ', 'noun', ' as it ', 'verb', ' even further. ', '"Oh my...." ', ['','name1'], ' could only ', 'verb', ' at the sight. ' ],
+
+
+  // 7
+  ['"We have a ', 'adjective', ' ', 'noun', ' ', ' there. ', 'number', ' days, maybe ', 'number', ' at best, and ', ['','noun1'], ' is already ', 'verb', '." ', ['','name2'], ' said. ', ['','name1'], ' ', 'verb', ' ', 'preposition', ' with ', 'adjective', '"That always ', 'verb', '. Are you ', 'adjective', ', ', ['','name2'], '?" '],
+
+  ['pronoun', ' had ', 'verb', ' them all around the ', ['','noun4'], '; twice around the ', ['','noun3'], ', ', 'across the ', 'noun', ', through the ', 'noun', ', down the ', 'noun', ' and past the ', 'noun', '. It mattered not for the ', ['','role3'], ' as at last they had them ','verb', '. When the ', ['','role3'], ' was mere ', 'noun', ' away, ', ['','name2'], ' ', 'verb', '. Their', 'noun', ' ', 'verb', ' around the ', ['','noun4'], ' ', 'adverb', '. ', ['','name1'], " saw this, but couldn't ", 'verb', '. '],
+
+  [['','name2'], ' had more time in ', ['','noun1'], ' than most ', ['','role2'], "s, and ", 'pronoun', ' knew as well as any of them the ', 'noun', ", but they still didn't like the thought of ", 'verb', ' the ', ['','noun1'], ' with a ', 'adjective', ' ', 'noun', '. ', 'number', ' was the right amount of ', 'noun', ', they thought, because losing one meant only ', 'verb', ' a ', 'noun', '. Next to ', ['','name2'], ' was ', ['','name1'], ' ', 'verb', ' ', 'adverb', ' in their ', 'noun', ' catching up on ', 'noun', '. ', ['','name2'], ' wondered what ', 'noun', ' ', 'pronoun', ' would be ', 'verb', ' in another situation. ' ],
+
+  ['noun', ', the', ['','role1'], ' thought. This ', ['','noun2'], " just won't work out. It's almost as ", 'adjective', ' as ', 'verb', ['','noun3'], ' for ', 'noun', '. If they keep ', 'verb', ' this way that ', ['','noun2'], ' is going to ', 'verb', ', not ', 'verb', ' like they kept ', 'verb', ' it would. ', 'adverb', " soon enough they'll ", 'verb', ' and change ', 'noun', '. After ', 'number', ' ', 'noun', ' of ', 'noun', ', the ', ['','role1'], ' ', 'verb', ' ', 'preposition', ' again ', 'verb', ' the ', ['','noun2'], "'s ", 'noun', '. '],
+
+  [['','name3'], ' ', 'verb', ' ', ['','name4'], ' and got that ', 'noun', ' in their ', 'noun', '. ', 'adverb', ' they ', 'verb', ' them over. ', '"', ['','name4'], ' ', 'verb', ' ', 'preposition', '. Have a ', 'noun', '," ', ['','name3'], ' ', 'verb', '. "', "I'm going ", 'verb', '. I need to ', 'verb', ' before the ', ['','noun3'], ' gets too ', 'adjective', ' and the ', 'noun', ' ', 'verb', '," It ', "wasn't technically ", 'adjective', ', because ', 'pronoun', ' was ', 'verb', ' a new ', ['','noun4'], ' which meant the ', 'noun', ' could be any ', 'noun', '. ' ],
+
+
+  // 8
+  ['The ', 'noun', ' ', 'adverb', ' felt even ', 'adjective', ' than it had been ', 'number', ' ', 'noun', ' ago; the ', 'verb', ' from ', 'noun', ' to ', 'noun', ' seemed even more ', 'adjective', '. ', ['','name4'], ' ', 'adverb', ' ', 'verb', ' an extra ', 'noun', ' from their ', 'adverb', ' ', 'noun', ' earlier, although it only took ', 'number', ' ', ' of the ', ['','noun4'], ' ', 'verb', ' to really ', 'verb', ' ', ['','name4'], "'s ", 'noun', '. '],
+
+  ['What ', 'noun', ', then, that these ', ['','role4'], ', ', 'verb', ' on a ', 'noun', ', should take to the ', ['','noun1'], ' for a ', 'noun', '! They first ', 'verb', 'noun', ' and ', 'noun', ' in the ', 'noun', '; grown ', 'adjective', ', they ', 'verb', ' ', 'preposition', ' with the ', ['','noun3'], ' meant for ', 'noun', '; more ', 'adjective', ', they pushed off ', 'preposition', ' ', 'noun', ' and captured ', 'noun', '; and at last, launching a ', 'noun', ' of great ', 'noun', ' on the ', 'noun', ', ', 'verb', ' this ', 'adjective', ' ', 'noun', '. '],
+
+  ['"What do you mean by that, ', ['','name4'], '?" said ', ['','name1'], ', now ', 'verb', ' on the ', 'noun', ', and leaving ', ['','name4'], ' ', 'verb', ' on the ', 'noun', '. "I mean,"', ['','name4'], ' replied, "they must ', 'verb', ' the ', ['','noun3'], '." "Yes," said ', ['','name2'], ' in their ', 'adjective', ' ', 'noun', ', ', 'verb', ' their ', 'noun ', ' from ', 'preposition', ['','name4'], ', out of the ', 'noun', '. "They must ', 'verb', ' that they ', 'verb', '. ', 'noun', ' of ', 'adjective', '." they added, turning to ', ['','name3'], ', "Are you currently ', 'noun', ' with any ', 'adjective', ' ', ['','noun3'], '?" "Never," ', ['','name3'], ' said ', 'adverb', ', "', "I'm a ", 'noun', ' through and through." '],
+
+  ['To ', 'verb', ' the ', 'noun', "of it's ", 'noun', ', or ', 'verb', ' the ', 'verb', ' on the ', 'noun', 'of this ', ['','noun4'], '; this is a thing which no ', ['','role2'], ' or ', ['','role4'], ' has as yet ', 'verb', '. Such a ', 'noun', ' would seem almost as ', 'adjective', ' as for ', ['','name4'], ' to have ', 'verb', ' the ', 'noun', ' of ', ['','noun2'], ', or for ', 'name', ' to ', 'verb', ' the ', ['','noun3'], ' of ', ['','noun4'], '. Still, in that ', 'adjective', ' ', 'verb', ' of theirs, ', ['','name4'], ' it were ', 'adjective', ' that they ', 'verb', ' the ', 'noun', ' properly. '],
+
+  ['pronoun', ' are ', 'verb', ' me their ', ['','noun4'], ', the ', ['','role4'], ' thought. They could ', 'adverb', ' ', 'verb', '. The ', ['','noun4'], ' was ', 'adverb', ' ', 'verb', '. The ', 'noun', ' ', 'verb', ' ', 'adverb', ' as they ', 'verb', ' the light. "Your ' ['','role3'], '-" "My ', ['','role3'], ' brough ', 'noun', ' to the ', ['','noun1'], ', but at least ', 'pronoun', ' had the ', 'noun', ' to ', 'verb', ' the ', ['','noun4'], ' before they ', 'verb', '. ']
+]
+
+var inputTypes = ['name', 'noun', 'verb', 'adjective', 'adverb', 'role', 'preposition', 'number', 'exclamation', 'pronoun', 'interjection', 'conjunction'];
+var j = 0, i = 0, k = 0, formNum = 0, formText = '', currentArr = arrays[Math.floor(Math.random() * arrays.length)].slice(0), whatType = '';
+
+function fadeIn () {;
+  setTimeout(function () {
+   if (currentArr[j] === undefined && document.getElementsByTagName('input').length === 0) { //Move on to the next section if there's nothing to enter
+      currentArr = arrays[Math.floor(Math.random() * arrays.length)].slice(0);
+      j = 0;
+      i = 0;
+        k++;
+        if (k >= 2) { //Add a line break after so many sections
+          node = document.createElement('div');
+          document.getElementById('uno').appendChild(node);
+          console.log('hey')
+          k = 0;
+        }
+      fadeIn();
+   }
+    if (inputTypes.indexOf(currentArr[j]) !== -1) {    //Insert a text field with the word if it matches something from inputTypes
+        addField(currentArr[j]);
+        formNum++;
+        j++;
+    }
+    var highlight = false;      //If the item is an array and was inputted before, this will become true and will flash red and big
+    if (typeof currentArr[j] === 'object') { //If the item is an array and is empty, give a text field
+      if (currentArr[j][0] == '') {
+        addField(currentArr[j]);
+        formNum++;
+        j++;
+      } else {
+        currentArr[j] = currentArr[j][0];
+        highlight = true;
+        }
+    }
+    var uno = currentArr[j].split(' ')
+		var node = document.createElement('span');			//One word in currentArr[j]'s' string is wrapped in a <span> and fades in
+		node.appendChild(document.createTextNode(uno[i] + ' '));
+    if (highlight) {node.setAttribute('class', 'highlight');}
+		document.getElementById('uno').appendChild(node);
+      i++;
+
+      if (i < uno.length) {							//Do the next word if there's more words in currentArr[j]
+        fadeIn();
+      } else if (j < currentArr.length) { //Do the next item in the current array
+        i = 0;
+        j++;
+        fadeIn();
+      }
+   }, 150)
+}
+
+fadeIn();
+
+function addField(type) {
+var form = document.createElement('form');				// Create the form, put the text input inside the form
+form.setAttribute('onSubmit', 'return false');			// Make it not refresh the page on 'enter'
+form.setAttribute('id', 'form' + formNum);
+var textField = document.createElement('input');
+textField.setAttribute('type', 'text');
+textField.setAttribute('id', 'input' + formNum);
+
+  var placeholder = type[1].replace(/[0-9]/g, '');
+    textField.setAttribute('placeholder', type);
+    if (typeof type === 'object') {
+      textField.setAttribute('placeholder', placeholder);
+      form.setAttribute('class', type[1]);
+    }
+
+var formContent = "form" + formNum;           // Hash the form and text input
+var inpContent = "input" + formNum;
+form.appendChild(textField);                       // Put the input in the form
+document.getElementById('uno').appendChild(form);  // Append the form into the paragraph
+// document.getElementById(inpContent).focus();
+
+var input = document.getElementById(formContent);
+	input.addEventListener('keyup', function(event) {	// If you press enter, the text input will be replaced with inputted text
+	if ((event.which || event.keyCode) === 13) {
+
+    if (document.getElementById(inpContent).value == "") { // Leave a blank if you type nothing
+      input.innerHTML = '___';
+      fadeIn();
+    } else {
+		  input.innerHTML = document.getElementById(inpContent).value;
+    }
+    input.setAttribute('class', 'highlight');
+    var v = document.getElementsByClassName(type[1]);
+
+    while (v.length > 0) {                //Replace other forms that store the same thing
+      v[0].innerHTML = input.innerHTML;
+      v[0].setAttribute('class', 'highlight');
+    }
+
+    for (var x = 0; x < arrays.length; x++) {           //replace E.G. all name1's in every possible section with the input
+      for (var z = 0; z < arrays[x].length; z++) {
+        if (arrays[x][z][1] === type[1]) {
+          arrays[x][z][0] = input.innerHTML;
+        }
+      }
+    }
+
+
+
+    if (document.getElementsByTagName('input').length === 0) {          //Move on to the next section if you've entered everything
+      currentArr = arrays[Math.floor(Math.random() * arrays.length)].slice(0);
+      j = 0;
+      i = 0;
+    }
+		input.setAttribute('class', 'highlight');		// Flash it red and big for a second
+    fadeIn();
+	}
+});
+}
+
+/*function getPronoun(number,name) {
+  console.log('hey')
+    for (var x = 0; x < arrays.length; x++) {
+      for (var z = 0; z < arrays[x].length; z++) {
+        if (arrays[x][z][1] === name && arrays[x][z][0] !== '' && typeof arrays[x][z][0] !== 'number') {
+            var checkName = arrays[x][z][0];
+        }
+      }
+    }
+  $.ajax({
+    dataType: 'jsonp',
+    crossDomain: true,
+    url:  'https://gender-api.com/get?name=' + checkName + '&key=ZEpPMRyzjbFuxBqYAX',
+    success: function(result) {
+      console.log(result);
+    }
+    :
+  });
+}*/
+</script>
+</body>
+
+</html>
